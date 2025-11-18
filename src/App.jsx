@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 
 const App = () => {
+  const [todo, setTodo] = useState("");
+
   const fetchTodos = async () => {
     const res = await axios.get("http://localhost:4000/todos");
     return res.data;
@@ -26,6 +28,20 @@ const App = () => {
       <header>
         <h2>Todo List - Tanstack Query</h2>
       </header>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          console.log("입력 값:", todo);
+        }}
+      >
+        <input
+          placeholder="할 일"
+          value={todo}
+          onChange={(e) => setTodo(e.target.value)}
+        />
+        <button type="submit">추가</button>
+      </form>
 
       <ul className="list">
         {todos.map((todo) => (
