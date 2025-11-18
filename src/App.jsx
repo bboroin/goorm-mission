@@ -42,6 +42,21 @@ const App = () => {
     onSuccess: () => queryClient.invalidateQueries(["todos"]),
   });
 
+  const deleteTodo = async (id) => {
+    const res = await axios.delete(`http://localhost:4000/todos/${id}`);
+    return res.data;
+  };
+
+  const { mutate: deleteTodoMutate } = useMutation({
+    mutationFn: deleteTodo,
+    onError: () => {
+      alert("삭제에 실패했습니다. 다시 시도해주세요.");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["todos"]);
+    },
+  });
+
   if (isPending) return <div>로딩 중...</div>;
   if (isError) return <div>데이터를 불러오지 못했습니다.</div>;
 
@@ -79,6 +94,16 @@ const App = () => {
                 }}
               >
                 {todo.completed ? "완료" : "진행 중"}
+              </button>
+              <button
+                className="control-btn"
+                type="button"
+                onClick={() => {
+                  if (!window.confirm("정말 삭제할까요?")) return;
+                  deleteTodoMutate(todo.id);
+                }}
+              >
+                삭제
               </button>
             </div>
           </li>
