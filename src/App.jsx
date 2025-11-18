@@ -1,15 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
 import "./App.css";
 
 const App = () => {
   const [todo, setTodo] = useState("");
+  const queryClient = useQueryClient();
 
   const fetchTodos = async () => {
     const res = await axios.get("http://localhost:4000/todos");
     return res.data;
   };
+
+  const addTodo = async (newTodo) =>
+    await axios.post("http://localhost:4000/todos", newTodo);
 
   const {
     data: todos = [],
@@ -18,6 +22,14 @@ const App = () => {
   } = useQuery({
     queryKey: ["todos"],
     queryFn: fetchTodos,
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: addTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["todos"]);
+      setTodo("");
+    },
   });
 
   if (isPending) return <div>로딩 중...</div>;
@@ -32,7 +44,8 @@ const App = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          console.log("입력 값:", todo);
+          if (!todo.trim()) return;
+          mutate({ title: todo, completed: false });
         }}
       >
         <input
