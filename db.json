@@ -1,7 +1,7 @@
 {
   "todos": [
     {
-      "id": 1,
+      "id": "1",
       "title": "json server test",
       "completed": false
     }

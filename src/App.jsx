@@ -12,9 +12,6 @@ const App = () => {
     return res.data;
   };
 
-  const addTodo = async (newTodo) =>
-    await axios.post("http://localhost:4000/todos", newTodo);
-
   const {
     data: todos = [],
     isPending,
@@ -24,12 +21,25 @@ const App = () => {
     queryFn: fetchTodos,
   });
 
+  const addTodo = async (newTodo) =>
+    await axios.post("http://localhost:4000/todos", newTodo);
+
   const { mutate } = useMutation({
     mutationFn: addTodo,
     onSuccess: () => {
       queryClient.invalidateQueries(["todos"]);
       setTodo("");
     },
+  });
+
+  const toggleTodo = async (todo) =>
+    await axios.patch(`http://localhost:4000/todos/${todo.id}`, {
+      completed: !todo.completed,
+    });
+
+  const { mutate: toggleTodoMutate } = useMutation({
+    mutationFn: toggleTodo,
+    onSuccess: () => queryClient.invalidateQueries(["todos"]),
   });
 
   if (isPending) return <div>로딩 중...</div>;
@@ -60,7 +70,17 @@ const App = () => {
         {todos.map((todo) => (
           <li key={todo.id} className="item">
             <div className="title">{todo.title}</div>
-            <p>{todo.completed ? "완료" : "진행 중"}</p>
+            <div>
+              <button
+                className="control-btn"
+                onClick={() => toggleTodoMutate(todo)}
+                style={{
+                  backgroundColor: todo.completed ? "#57dd57a4" : "#ddd",
+                }}
+              >
+                {todo.completed ? "완료" : "진행 중"}
+              </button>
+            </div>
           </li>
         ))}
       </ul>
