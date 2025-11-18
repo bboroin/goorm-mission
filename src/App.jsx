@@ -12,6 +12,19 @@ const App = () => {
     return res.data;
   };
 
+  const addTodo = async (newTodo) =>
+    await axios.post("http://localhost:4000/todos", newTodo);
+
+  const toggleTodo = async (todo) =>
+    await axios.patch(`http://localhost:4000/todos/${todo.id}`, {
+      completed: !todo.completed,
+    });
+
+  const deleteTodo = async (id) => {
+    const res = await axios.delete(`http://localhost:4000/todos/${id}`);
+    return res.data;
+  };
+
   const {
     data: todos = [],
     isPending,
@@ -21,10 +34,7 @@ const App = () => {
     queryFn: fetchTodos,
   });
 
-  const addTodo = async (newTodo) =>
-    await axios.post("http://localhost:4000/todos", newTodo);
-
-  const { mutate } = useMutation({
+  const { mutate: addTodoMutate } = useMutation({
     mutationFn: addTodo,
     onSuccess: () => {
       queryClient.invalidateQueries(["todos"]);
@@ -32,20 +42,10 @@ const App = () => {
     },
   });
 
-  const toggleTodo = async (todo) =>
-    await axios.patch(`http://localhost:4000/todos/${todo.id}`, {
-      completed: !todo.completed,
-    });
-
   const { mutate: toggleTodoMutate } = useMutation({
     mutationFn: toggleTodo,
     onSuccess: () => queryClient.invalidateQueries(["todos"]),
   });
-
-  const deleteTodo = async (id) => {
-    const res = await axios.delete(`http://localhost:4000/todos/${id}`);
-    return res.data;
-  };
 
   const { mutate: deleteTodoMutate } = useMutation({
     mutationFn: deleteTodo,
@@ -70,7 +70,7 @@ const App = () => {
         onSubmit={(e) => {
           e.preventDefault();
           if (!todo.trim()) return;
-          mutate({ title: todo, completed: false });
+          addTodoMutate({ title: todo, completed: false });
         }}
       >
         <input
