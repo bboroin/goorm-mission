@@ -83,18 +83,14 @@ const App = () => {
 
       <ul className="list">
         {todos.map((todo) => (
-          <li key={todo.id} className="item">
-            <div className="title">{todo.title}</div>
+          <li
+            key={todo.id}
+            className={`item ${todo.completed ? "item--done" : ""}`}
+          >
+            <div className="title" onClick={() => toggleTodoMutate(todo)}>
+              {todo.title}
+            </div>
             <div>
-              <button
-                className="control-btn"
-                onClick={() => toggleTodoMutate(todo)}
-                style={{
-                  backgroundColor: todo.completed ? "#57dd57a4" : "#ddd",
-                }}
-              >
-                {todo.completed ? "완료" : "진행 중"}
-              </button>
               <button
                 className="control-btn"
                 type="button"
