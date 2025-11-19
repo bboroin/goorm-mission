@@ -102,19 +102,19 @@ const Todos = () => {
           className={tab === "all" ? "tab--active" : ""}
           onClick={() => setTab("all")}
         >
-          전체
+          전체 ({pending.length + completed.length})
         </button>
         <button
           className={tab === "pending" ? "tab--active" : ""}
           onClick={() => setTab("pending")}
         >
-          진행중
+          진행중 ({pending.length})
         </button>
         <button
           className={tab === "completed" ? "tab--active" : ""}
           onClick={() => setTab("completed")}
         >
-          완료
+          완료 ({completed.length})
         </button>
       </div>
 
