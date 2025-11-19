@@ -33,10 +33,11 @@ const Todos = () => {
       // 최신순 정렬
       const sorted = [...todos].sort((a, b) => b.createdAt - a.createdAt);
 
-      // 완료/미완료 분리
-      const completed = sorted.filter((t) => t.completed);
-      const pending = sorted.filter((t) => !t.completed);
-      return { all: sorted, completed, pending };
+      return {
+        all: sorted,
+        pending: sorted.filter((t) => !t.completed),
+        completed: sorted.filter((t) => t.completed),
+      };
     },
   });
 
@@ -63,8 +64,7 @@ const Todos = () => {
     },
   });
 
-  const { all = [], pending = [], completed = [] } = data || {};
-
+  const { all, pending, completed } = data;
   const filteredTodos =
     tab === "pending" ? pending : tab === "completed" ? completed : all;
 
