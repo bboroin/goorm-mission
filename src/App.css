@@ -72,3 +72,20 @@ input {
   font-size: 14px;
   color: #22c55e;
 }
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+  justify-content: space-between;
+}
+
+.tabs button {
+  font-size: 14px;
+}
+
+.tab--active {
+  background-color: #a5a0ffff;
+  color: #fff;
+  font-weight: 600;
+}

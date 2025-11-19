@@ -97,6 +97,27 @@ const Todos = () => {
         <button type="submit">추가</button>
       </form>
 
+      <div className="tabs">
+        <button
+          className={tab === "all" ? "tab--active" : ""}
+          onClick={() => setTab("all")}
+        >
+          전체
+        </button>
+        <button
+          className={tab === "pending" ? "tab--active" : ""}
+          onClick={() => setTab("pending")}
+        >
+          진행중
+        </button>
+        <button
+          className={tab === "completed" ? "tab--active" : ""}
+          onClick={() => setTab("completed")}
+        >
+          완료
+        </button>
+      </div>
+
       <ul className="list">
         {filteredTodos.map((todo) => (
           <Todo
