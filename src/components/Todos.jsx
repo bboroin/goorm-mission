@@ -5,6 +5,7 @@ import Todo from "./Todo";
 
 const Todos = () => {
   const [todo, setTodo] = useState("");
+  const [tab, setTab] = useState("all");
   const queryClient = useQueryClient();
 
   const fetchTodos = async () => {
@@ -25,13 +26,14 @@ const Todos = () => {
     return res.data;
   };
 
-  const {
-    data: todos = [],
-    isPending,
-    isError,
-  } = useQuery({
+  const { data, isPending, isError } = useQuery({
     queryKey: ["todos"],
     queryFn: fetchTodos,
+    select: (todos) => {
+      const completed = todos.filter((t) => t.completed);
+      const pending = todos.filter((t) => !t.completed);
+      return { completed, pending };
+    },
   });
 
   const { mutate: addTodoMutate } = useMutation({
@@ -56,6 +58,15 @@ const Todos = () => {
       queryClient.invalidateQueries(["todos"]);
     },
   });
+
+  const { pending = [], completed = [] } = data || {};
+
+  const filteredTodos =
+    tab === "pending"
+      ? pending
+      : tab === "completed"
+      ? completed
+      : [...pending, ...completed];
 
   const handleToggle = (todo) => {
     toggleTodoMutate(todo);
@@ -87,7 +98,7 @@ const Todos = () => {
       </form>
 
       <ul className="list">
-        {todos.map((todo) => (
+        {filteredTodos.map((todo) => (
           <Todo
             key={todo.id}
             todo={todo}
