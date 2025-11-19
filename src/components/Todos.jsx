@@ -5,6 +5,7 @@ import Todo from "./Todo";
 
 const Todos = () => {
   const [todo, setTodo] = useState("");
+  const [tab, setTab] = useState("all");
   const queryClient = useQueryClient();
 
   const fetchTodos = async () => {
@@ -25,13 +26,19 @@ const Todos = () => {
     return res.data;
   };
 
-  const {
-    data: todos = [],
-    isPending,
-    isError,
-  } = useQuery({
+  const { data, isPending, isError } = useQuery({
     queryKey: ["todos"],
     queryFn: fetchTodos,
+    select: (todos) => {
+      // 최신순 정렬
+      const sorted = [...todos].sort((a, b) => b.createdAt - a.createdAt);
+
+      return {
+        all: sorted,
+        pending: sorted.filter((t) => !t.completed),
+        completed: sorted.filter((t) => t.completed),
+      };
+    },
   });
 
   const { mutate: addTodoMutate } = useMutation({
@@ -57,6 +64,10 @@ const Todos = () => {
     },
   });
 
+  const { all, pending, completed } = data;
+  const filteredTodos =
+    tab === "pending" ? pending : tab === "completed" ? completed : all;
+
   const handleToggle = (todo) => {
     toggleTodoMutate(todo);
   };
@@ -75,7 +86,11 @@ const Todos = () => {
         onSubmit={(e) => {
           e.preventDefault();
           if (!todo.trim()) return;
-          addTodoMutate({ title: todo, completed: false });
+          addTodoMutate({
+            title: todo,
+            completed: false,
+            createdAt: Date.now(),
+          });
         }}
       >
         <input
@@ -86,8 +101,29 @@ const Todos = () => {
         <button type="submit">추가</button>
       </form>
 
+      <div className="tabs">
+        <button
+          className={tab === "all" ? "tab--active" : ""}
+          onClick={() => setTab("all")}
+        >
+          전체 ({pending.length + completed.length})
+        </button>
+        <button
+          className={tab === "pending" ? "tab--active" : ""}
+          onClick={() => setTab("pending")}
+        >
+          진행중 ({pending.length})
+        </button>
+        <button
+          className={tab === "completed" ? "tab--active" : ""}
+          onClick={() => setTab("completed")}
+        >
+          완료 ({completed.length})
+        </button>
+      </div>
+
       <ul className="list">
-        {todos.map((todo) => (
+        {filteredTodos.map((todo) => (
           <Todo
             key={todo.id}
             todo={todo}
