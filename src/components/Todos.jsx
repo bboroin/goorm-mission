@@ -30,9 +30,13 @@ const Todos = () => {
     queryKey: ["todos"],
     queryFn: fetchTodos,
     select: (todos) => {
-      const completed = todos.filter((t) => t.completed);
-      const pending = todos.filter((t) => !t.completed);
-      return { completed, pending };
+      // 최신순 정렬
+      const sorted = [...todos].sort((a, b) => b.createdAt - a.createdAt);
+
+      // 완료/미완료 분리
+      const completed = sorted.filter((t) => t.completed);
+      const pending = sorted.filter((t) => !t.completed);
+      return { all: sorted, completed, pending };
     },
   });
 
@@ -59,14 +63,10 @@ const Todos = () => {
     },
   });
 
-  const { pending = [], completed = [] } = data || {};
+  const { all = [], pending = [], completed = [] } = data || {};
 
   const filteredTodos =
-    tab === "pending"
-      ? pending
-      : tab === "completed"
-      ? completed
-      : [...pending, ...completed];
+    tab === "pending" ? pending : tab === "completed" ? completed : all;
 
   const handleToggle = (todo) => {
     toggleTodoMutate(todo);
@@ -86,7 +86,11 @@ const Todos = () => {
         onSubmit={(e) => {
           e.preventDefault();
           if (!todo.trim()) return;
-          addTodoMutate({ title: todo, completed: false });
+          addTodoMutate({
+            title: todo,
+            completed: false,
+            createdAt: Date.now(),
+          });
         }}
       >
         <input
