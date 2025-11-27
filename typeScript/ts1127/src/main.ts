@@ -29,3 +29,15 @@ interface User {
     bs: string;
   };
 }
+
+// 2. 제네릭 fetchJson 함수 생성
+async function fetchJson<T>(url: string): Promise<T> {
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    throw new Error(`Error fetching: ${res.status}`);
+  }
+
+  const data: T = await res.json();
+  return data;
+}
