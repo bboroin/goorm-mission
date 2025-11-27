@@ -65,3 +65,25 @@ type CreatePostDto = Omit<Post, "id">;
 type UpdatePostDto = Partial<Pick<Post, "title" | "body">>;
 
 type ReadonlyPost = Readonly<Post>;
+
+// 5. 유틸리티 타입 확인
+const firstPost = posts[0];
+console.log("첫 번째 post :", firstPost);
+
+// 5-1. PostSummary
+const firstPostSummary: PostSummary = {
+  id: firstPost.id,
+  title: firstPost.title,
+};
+console.log("PostSummary:", firstPostSummary);
+
+// 5-2. ReadonlyPost
+const readonlyFirstPost: ReadonlyPost = firstPost;
+// readonlyFirstPost.title = "제목 수정";
+
+// 5-3. UpdatePostDto
+const updatePostDto: UpdatePostDto = {
+  title: "제목 수정",
+  body: "본문 수정",
+};
+console.log("UpdatePostDto:", updatePostDto);
