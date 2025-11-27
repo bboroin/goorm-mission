@@ -87,3 +87,16 @@ const updatePostDto: UpdatePostDto = {
   body: "본문 수정",
 };
 console.log("UpdatePostDto:", updatePostDto);
+
+// 6. ReturnType + Awaited 활용
+type FetchPostsReturn = ReturnType<typeof fetchJson<Post[]>>; // Promise<Post[]>
+
+type FetchPostsData = Awaited<FetchPostsReturn>; // Post[]
+
+const postsPromise: FetchPostsReturn = fetchJson<Post[]>(
+  "https://jsonplaceholder.typicode.com/posts"
+);
+const postsArray: FetchPostsData = await postsPromise;
+
+console.log(postsPromise);
+console.log(postsArray);
