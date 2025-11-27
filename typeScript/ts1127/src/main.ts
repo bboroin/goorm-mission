@@ -41,3 +41,18 @@ async function fetchJson<T>(url: string): Promise<T> {
   const data: T = await res.json();
   return data;
 }
+
+// 3. 실제 API 요청 후 로그 출력
+async function getAllPosts(): Promise<Post[]> {
+  return fetchJson<Post[]>("https://jsonplaceholder.typicode.com/posts");
+}
+
+async function getUserById(id: number): Promise<User> {
+  return fetchJson<User>(`https://jsonplaceholder.typicode.com/users/${id}`);
+}
+
+const posts = await getAllPosts();
+console.log(posts);
+
+const user1 = await getUserById(1);
+console.log(user1);
