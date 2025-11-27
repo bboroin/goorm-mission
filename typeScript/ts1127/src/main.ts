@@ -56,3 +56,12 @@ console.log(posts);
 
 const user1 = await getUserById(1);
 console.log(user1);
+
+// 4. 유틸리티 타입 적용
+type PostSummary = Pick<Post, "id" | "title">;
+
+type CreatePostDto = Omit<Post, "id">;
+
+type UpdatePostDto = Partial<Pick<Post, "title" | "body">>;
+
+type ReadonlyPost = Readonly<Post>;
