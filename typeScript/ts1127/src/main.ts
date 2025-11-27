@@ -38,7 +38,7 @@ async function fetchJson<T>(url: string): Promise<T> {
     throw new Error(`Error fetching: ${res.status}`);
   }
 
-  const data: T = await res.json();
+  const data = (await res.json()) as T;
   return data;
 }
 
