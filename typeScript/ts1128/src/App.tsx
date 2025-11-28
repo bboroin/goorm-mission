@@ -43,6 +43,26 @@ function App() {
     setTitle("");
   };
 
+  const handleEditTodo = async (todo: Todo) => {
+    const newTitle = window.prompt("변경할 내용을 입력하세요", todo.title);
+
+    if (newTitle === null) return;
+    if (!newTitle.trim()) {
+      alert("내용이 비어 있습니다.");
+      return;
+    }
+
+    await fetch(`${BASE_URL}/${todo.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: newTitle }),
+    });
+
+    setTodoList((prev) =>
+      prev.map((t) => (t.id === todo.id ? { ...t, title: newTitle } : t))
+    );
+  };
+
   return (
     <div>
       <h2 className="header">TS + React TodoList</h2>
@@ -61,6 +81,16 @@ function App() {
         {todoList.map((todo) => (
           <li key={todo.id} className="item">
             <span className="title">{todo.title}</span>
+            <div className="control-btns">
+              <button
+                className="control-btn"
+                onClick={() => {
+                  handleEditTodo(todo);
+                }}
+              >
+                수정
+              </button>
+            </div>
           </li>
         ))}
       </ul>
