@@ -22,7 +22,25 @@ function App() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
-    console.log("입력값 : ", e.target.value);
+  };
+
+  const handleAddTodo = async () => {
+    if (!title.trim()) return;
+
+    const newTodo: Todo = {
+      id: crypto.randomUUID(),
+      title,
+      completed: false,
+    };
+
+    await fetch(BASE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newTodo),
+    });
+
+    setTodoList((prev) => [...prev, newTodo]);
+    setTitle("");
   };
 
   return (
@@ -36,7 +54,7 @@ function App() {
           value={title}
           onChange={handleChange}
         />
-        <button>등록</button>
+        <button onClick={handleAddTodo}>추가</button>
       </div>
 
       <ul className="list">
