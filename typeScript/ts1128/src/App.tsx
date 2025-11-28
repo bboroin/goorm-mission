@@ -19,7 +19,19 @@ function App() {
     getTodos().then((data) => setTodoList(data));
   }, []);
 
-  return <div></div>;
+  return (
+    <div>
+      <h2 className="header">TS + React TodoList</h2>
+
+      <ul className="list">
+        {todoList.map((todo) => (
+          <li key={todo.id} className="item">
+            <span className="title">{todo.title}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 export default App;
