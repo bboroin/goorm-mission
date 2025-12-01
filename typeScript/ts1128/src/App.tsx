@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import type { Todo } from "./types/todo";
+import type { Todo, ToggleTodo } from "./types/todo";
 
 const BASE_URL = "http://localhost:4000/todos";
 
@@ -71,6 +71,20 @@ function App() {
     setTodoList((prev) => prev.filter((todo) => todo.id !== id));
   };
 
+  const handleToggleTodo = async ({ id, completed }: ToggleTodo) => {
+    await fetch(`${BASE_URL}/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ completed: !completed }),
+    });
+
+    setTodoList((prev) =>
+      prev.map((todo) =>
+        todo.id === id ? { ...todo, completed: !completed } : todo
+      )
+    );
+  };
+
   return (
     <div>
       <h2 className="header">TS + React TodoList</h2>
@@ -87,8 +101,13 @@ function App() {
 
       <ul className="list">
         {todoList.map((todo) => (
-          <li key={todo.id} className="item">
-            <span className="title">{todo.title}</span>
+          <li
+            key={todo.id}
+            className={`item ${todo.completed ? "item--done" : ""}`}
+          >
+            <span className="title" onClick={() => handleToggleTodo(todo)}>
+              {todo.title}
+            </span>
             <div className="control-btns">
               <button
                 className="control-btn"
