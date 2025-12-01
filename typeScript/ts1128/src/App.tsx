@@ -63,6 +63,14 @@ function App() {
     );
   };
 
+  const handleDeleteTodo = async (id: Todo["id"]) => {
+    await fetch(`${BASE_URL}/${id}`, {
+      method: "DELETE",
+    });
+
+    setTodoList((prev) => prev.filter((todo) => todo.id !== id));
+  };
+
   return (
     <div>
       <h2 className="header">TS + React TodoList</h2>
@@ -89,6 +97,14 @@ function App() {
                 }}
               >
                 수정
+              </button>
+              <button
+                className="control-btn"
+                onClick={() => {
+                  handleDeleteTodo(todo.id);
+                }}
+              >
+                삭제
               </button>
             </div>
           </li>
