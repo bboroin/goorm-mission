@@ -14,6 +14,14 @@ const ListPage = async () => {
 
   const books: Book[] = await res.json();
 
+  if (books.length === 0) {
+    return (
+      <div className="p-6 text-center text-gray-600">
+        아직 등록된 책이 없습니다.
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-3xl mx-auto py-10">
       <h1 className="text-2xl font-bold mb-4">책 목록</h1>
