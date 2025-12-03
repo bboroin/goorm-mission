@@ -1,0 +1,90 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "slug": "clean-code",
+      "title": "클린 코드",
+      "author": "로버트 C. 마틴",
+      "category": "programming",
+      "description": "좋은 코드를 작성하기 위한 원칙과 패턴을 다루는 고전적인 개발 서적입니다.",
+      "descriptionHtml": "<p>좋은 코드를 작성하기 위한 원칙과 패턴을 다루는 고전적인 개발 서적입니다.</p>",
+      "price": {
+        "amount": "32000",
+        "currencyCode": "KRW"
+      },
+      "coverImage": "https://picsum.photos/seed/cleancode/400/600",
+      "isNew": false,
+      "rating": 4.8,
+      "tags": ["프로그래밍", "베스트셀러", "클린코드"]
+    },
+    {
+      "id": 2,
+      "slug": "refactoring",
+      "title": "리팩터링 2판",
+      "author": "마틴 파울러",
+      "category": "programming",
+      "description": "기존 코드를 개선하면서도 동작을 유지하는 리팩터링 기법을 설명합니다.",
+      "descriptionHtml": "<p>기존 코드를 개선하면서도 동작을 유지하는 리팩터링 기법을 설명합니다.</p>",
+      "price": {
+        "amount": "45000",
+        "currencyCode": "KRW"
+      },
+      "coverImage": "https://picsum.photos/seed/refactoring/400/600",
+      "isNew": true,
+      "rating": 4.7,
+      "tags": ["프로그래밍", "리팩터링"]
+    },
+    {
+      "id": 3,
+      "slug": "javascript-deep-dive",
+      "title": "모던 자바스크립트 Deep Dive",
+      "author": "이웅모",
+      "category": "programming",
+      "description": "자바스크립트의 동작 원리를 깊이 있게 파헤치는 책입니다.",
+      "descriptionHtml": "<p>자바스크립트의 동작 원리를 깊이 있게 파헤치는 책입니다.</p>",
+      "price": {
+        "amount": "42000",
+        "currencyCode": "KRW"
+      },
+      "coverImage": "https://picsum.photos/seed/jsdeepdive/400/600",
+      "isNew": true,
+      "rating": 4.9,
+      "tags": ["자바스크립트", "프론트엔드"]
+    },
+    {
+      "id": 4,
+      "slug": "database-design",
+      "title": "실전 데이터베이스 설계",
+      "author": "홍길동",
+      "category": "database",
+      "description": "서비스 개발에 바로 적용할 수 있는 데이터베이스 모델링과 설계 전략을 다룹니다.",
+      "descriptionHtml": "<p>서비스 개발에 바로 적용할 수 있는 데이터베이스 모델링과 설계 전략을 다룹니다.</p>",
+      "price": {
+        "amount": "38000",
+        "currencyCode": "KRW"
+      },
+      "coverImage": "https://picsum.photos/seed/dbdesign/400/600",
+      "isNew": false,
+      "rating": 4.3,
+      "tags": ["데이터베이스", "백엔드"]
+    },
+    {
+      "id": 5,
+      "slug": "frontend-architecture",
+      "title": "프론트엔드 아키텍처 가이드",
+      "author": "김프론트",
+      "category": "frontend",
+      "description": "규모가 커지는 프론트엔드 프로젝트에서 구조를 설계하고 유지보수하는 방법을 소개합니다.",
+      "descriptionHtml": "<p>규모가 커지는 프론트엔드 프로젝트에서 구조를 설계하고 유지보수하는 방법을 소개합니다.</p>",
+      "price": {
+        "amount": "29000",
+        "currencyCode": "KRW"
+      },
+      "coverImage": "https://picsum.photos/seed/frontendarch/400/600",
+      "isNew": true,
+      "rating": 4.5,
+      "tags": ["프론트엔드", "아키텍처"]
+    }
+  ],
+  "cart": []
+}
