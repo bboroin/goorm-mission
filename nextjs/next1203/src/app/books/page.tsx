@@ -1,6 +1,7 @@
 import React from "react";
 import { Book } from "../types/book";
 import Link from "next/link";
+import CartButton from "@/components/CartButton";
 
 const ListPage = async () => {
   const res = await fetch("http://localhost:4000/books", {
@@ -30,12 +31,15 @@ const ListPage = async () => {
               <h2 className="font-semibold">{book.title}</h2>
               <p className="text-sm text-gray-500">저자 - {book.author}</p>
             </div>
-            <Link
-              href={`/book/${book.id}`}
-              className="px-3 py-1 text-sm rounded bg-gray-400 hover:bg-blue-600 text-white"
-            >
-              자세히 보기
-            </Link>
+            <div className="flex gap-2">
+              <Link
+                href={`/book/${book.id}`}
+                className="px-3 py-1 text-sm rounded bg-gray-400 hover:bg-blue-600 text-white"
+              >
+                자세히 보기
+              </Link>
+              <CartButton book={book} />
+            </div>
           </li>
         ))}
       </ul>
