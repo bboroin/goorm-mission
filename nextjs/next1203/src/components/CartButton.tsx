@@ -5,6 +5,14 @@ import React from "react";
 
 const CartButton = ({ book }: { book: Book }) => {
   const handleAdd = async () => {
+    const checkRes = await fetch(`http://localhost:4000/cart?id=${book.id}`);
+    const existing = await checkRes.json();
+
+    if (existing.length) {
+      alert("이미 장바구니에 있는 책입니다");
+      return;
+    }
+
     await fetch("http://localhost:4000/cart", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
