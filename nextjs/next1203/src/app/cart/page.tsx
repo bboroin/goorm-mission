@@ -21,10 +21,19 @@ const CartPage = () => {
     fetchCart();
   }, []);
 
-  if (loading) return <div className="p-6">장바구니 불러오는 중...</div>;
+  if (loading)
+    return (
+      <div className="p-6 text-center text-gray-600">
+        장바구니 불러오는 중...
+      </div>
+    );
 
   if (items.length === 0)
-    return <div className="p-6">장바구니가 비어 있습니다.</div>;
+    return (
+      <div className="p-6 text-center text-gray-600">
+        장바구니가 비어 있습니다.
+      </div>
+    );
 
   return (
     <div className="max-w-3xl mx-auto p-6">
