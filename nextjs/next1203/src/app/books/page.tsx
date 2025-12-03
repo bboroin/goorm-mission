@@ -2,18 +2,16 @@ import React from "react";
 import { Book } from "../types/book";
 import Link from "next/link";
 
-async function getBooks(): Promise<Book[]> {
+const ListPage = async () => {
   const res = await fetch("http://localhost:4000/books", {
     next: { revalidate: 10 },
   });
+
   if (!res.ok) {
     throw new Error("Failed to fetch books");
   }
-  return res.json();
-}
 
-export default async function ListPage() {
-  const books = await getBooks();
+  const books: Book[] = await res.json();
 
   return (
     <div className="max-w-3xl mx-auto py-10">
@@ -43,4 +41,6 @@ export default async function ListPage() {
       </ul>
     </div>
   );
-}
+};
+
+export default ListPage;
