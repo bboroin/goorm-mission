@@ -1,4 +1,5 @@
 import { Book } from "@/app/types/book";
+import { notFound } from "next/navigation";
 import React from "react";
 
 type DetailPageProps = {
@@ -12,7 +13,7 @@ const DetailPage = async ({ params }: DetailPageProps) => {
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch book detail");
+    notFound();
   }
 
   const book: Book = await res.json();
