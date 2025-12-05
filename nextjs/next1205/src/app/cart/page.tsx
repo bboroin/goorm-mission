@@ -2,19 +2,14 @@ import React from "react";
 import { BASE_URL } from "../constansts/api";
 import { Book } from "@/types/books";
 import { removeItemCart } from "../server-action";
-
-type cartItem = {
-  bookId: number;
-  quantity: number;
-  id: number;
-};
+import { CartItem } from "@/types/cart";
 
 const CartPage = async () => {
   const [cartRes, booksRes] = await Promise.all([
     fetch(`${BASE_URL}/cart`, { cache: "no-store" }),
     fetch(`${BASE_URL}/books`, { cache: "no-store" }),
   ]);
-  const cart: cartItem[] = await cartRes.json();
+  const cart: CartItem[] = await cartRes.json();
   const books: Book[] = await booksRes.json();
 
   const items = cart.map((item) => {
