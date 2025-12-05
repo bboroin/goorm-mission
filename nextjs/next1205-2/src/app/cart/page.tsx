@@ -2,7 +2,10 @@ import React from "react";
 import { BASE_URL } from "../constansts/api";
 import { CartItem } from "../types/cart";
 import { Book } from "../types/book";
-import { updateCartQuantity } from "../server-actions/cartActions";
+import {
+  removeItemCart,
+  updateCartQuantity,
+} from "../server-actions/cartActions";
 
 const CartPage = async () => {
   const [cartRes, booksRes] = await Promise.all([
@@ -59,13 +62,25 @@ const CartPage = async () => {
                   <button
                     type="submit"
                     className="px-3 py-1 text-xs font-medium rounded-full
-                        border border-blue-500 text-blue-600
-                        hover:bg-blue-50 active:bg-blue-100
+                        border border-blue-300 text-blue-500
+                        hover:bg-blue-100 active:bg-blue-200
                         transition-colors"
                   >
                     변경
                   </button>
                 </div>
+              </form>
+              <form action={removeItemCart}>
+                <input type="hidden" name="id" value={item.id} />
+                <button
+                  type="submit"
+                  className="px-3 py-1 text-xs font-medium rounded-full
+                     border border-red-300 text-red-500
+                     hover:bg-red-100 active:bg-red-200
+                     transition-colors"
+                >
+                  삭제
+                </button>
               </form>
             </div>
           </li>
