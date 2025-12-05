@@ -79,8 +79,8 @@ const CartPage = async () => {
                 <button
                   type="submit"
                   className="px-3 py-1 text-xs font-medium rounded-full
-                   border border-gray-300 text-gray-500
-                   hover:bg-gray-100 active:bg-gray-200
+                   border border-red-300 text-red-500
+                   hover:bg-red-100 active:bg-red-200
                    transition-colors"
                 >
                   삭제
