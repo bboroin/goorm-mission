@@ -17,8 +17,9 @@ const CartPage = async () => {
   const books: Book[] = await booksRes.json();
 
   const items = cart.map((item) => {
-    const book = books.find((b) => b.id === item.bookId)!;
-    const price = Number(book.price.amount);
+    const book = books.find((b) => Number(b.id) === item.bookId);
+
+    const price = Number(book?.price.amount);
     const totalPrice = price * item.quantity;
 
     return { ...item, book, price, totalPrice };
@@ -43,8 +44,10 @@ const CartPage = async () => {
             className="border border-gray-300 rounded p-4 flex items-center justify-between"
           >
             <div>
-              <p className="font-semibold">{item.book.title}</p>
-              <p className="text-sm text-gray-500">저자 - {item.book.author}</p>
+              <p className="font-semibold">{item.book?.title}</p>
+              <p className="text-sm text-gray-500">
+                저자 - {item.book?.author}
+              </p>
               <p className="text-sm font-semibold text-blue-800 mb-2">
                 ₩ {item.price.toLocaleString()}
               </p>
