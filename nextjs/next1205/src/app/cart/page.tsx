@@ -25,6 +25,8 @@ const CartPage = async () => {
     };
   });
 
+  const cartTotal = items.reduce((sum, item) => sum + item.totalPrice, 0);
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
       <h1 className="text-2xl font-bold mb-6">장바구니</h1>
@@ -104,6 +106,16 @@ const CartPage = async () => {
           </li>
         ))}
       </ul>
+
+      {/* 총 결제 금액 */}
+      {items.length > 0 && (
+        <div className="mt-8 border-t pt-4 flex items-center justify-between">
+          <span className="text-sm text-gray-600">총 결제 금액</span>
+          <span className="text-xl font-bold text-blue-600">
+            {cartTotal.toLocaleString()}원
+          </span>
+        </div>
+      )}
     </div>
   );
 };
