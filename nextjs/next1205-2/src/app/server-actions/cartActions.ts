@@ -64,3 +64,13 @@ export async function updateCartQuantity(formData: FormData) {
 
   revalidatePath("/cart");
 }
+
+// 삭제
+export async function removeItemCart(formData: FormData) {
+  const cartId = formData.get("id");
+  await fetch(`${BASE_URL}/cart/${cartId}`, {
+    method: "DELETE",
+  });
+
+  revalidatePath("/cart");
+}
