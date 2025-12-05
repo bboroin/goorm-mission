@@ -1,32 +1,21 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { BASE_URL } from "../constansts/api";
+import { CartItem } from "../types/cart";
 import { Book } from "../types/book";
 
-const CartPage = () => {
-  const [items, setItems] = useState<Book[]>([]);
-  const [loading, setLoading] = useState(true);
+const CartPage = async () => {
+  const [cartRes, booksRes] = await Promise.all([
+    fetch(`${BASE_URL}/cart`, { cache: "no-store" }),
+    fetch(`${BASE_URL}/books`, { cache: "no-store" }),
+  ]);
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const res = await fetch("http://localhost:4000/cart");
-        const data: Book[] = await res.json();
-        setItems(data);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const cart: CartItem[] = await cartRes.json();
+  const books: Book[] = await booksRes.json();
 
-    fetchCart();
-  }, []);
-
-  if (loading)
-    return (
-      <div className="p-6 text-center text-gray-600">
-        장바구니 불러오는 중...
-      </div>
-    );
+  const items = cart.map((item) => ({
+    ...item,
+    book: books.find((b) => b.id === item.bookId)!,
+  }));
 
   if (items.length === 0)
     return (
@@ -45,8 +34,8 @@ const CartPage = () => {
             className="border border-gray-300 rounded p-4 flex items-center justify-between"
           >
             <div>
-              <p className="font-semibold">{item.title}</p>
-              <p className="text-sm text-gray-500">저자 - {item.author}</p>
+              <p className="font-semibold">{item.book.title}</p>
+              <p className="text-sm text-gray-500">저자 - {item.book.author}</p>
             </div>
           </li>
         ))}
