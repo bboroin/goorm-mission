@@ -13,11 +13,15 @@ const CartPage = async () => {
   const books: Book[] = await booksRes.json();
 
   const items = cart.map((item) => {
-    const book = books.find((b) => Number(b.id) === Number(item.bookId));
+    const book = books.find((b) => Number(b.id) === item.bookId);
+    const price = book ? Number(book.price.amount) : 0;
+    const totalPrice = price * item.quantity;
 
     return {
       ...item,
       book,
+      price,
+      totalPrice,
     };
   });
 
@@ -42,6 +46,9 @@ const CartPage = async () => {
             <div className="flex-1">
               <h2 className="text-lg font-semibold">{item.book?.title}</h2>
               <p className="text-gray-600 text-sm mb-1">{item.book?.author}</p>
+              <p className="text-sm font-semibold text-gray-900 mb-2">
+                {item.price.toLocaleString()}원
+              </p>
             </div>
 
             <div className="flex flex-col items-end gap-3">
@@ -72,6 +79,13 @@ const CartPage = async () => {
                   </button>
                 </div>
               </form>
+
+              <div className="text-sm text-gray-700 mt-1">
+                합계{" "}
+                <span className="font-semibold">
+                  {item.totalPrice.toLocaleString()}원
+                </span>
+              </div>
 
               {/* 삭제 버튼 */}
               <form action={removeItemCart}>
