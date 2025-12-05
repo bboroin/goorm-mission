@@ -1,7 +1,7 @@
 import React from "react";
 import { BASE_URL } from "../constansts/api";
 import { Book } from "@/types/books";
-import { removeItemCart } from "../server-action";
+import { removeItemCart, updateCartQuantity } from "../server-action";
 import { CartItem } from "@/types/cart";
 
 const CartPage = async () => {
@@ -42,16 +42,38 @@ const CartPage = async () => {
             <div className="flex-1">
               <h2 className="text-lg font-semibold">{item.book?.title}</h2>
               <p className="text-gray-600 text-sm mb-1">{item.book?.author}</p>
-              <p className="text-sm text-gray-800">{item.book?.description}</p>
             </div>
 
-            {/* 수량 + 삭제 */}
-            <div className="flex flex-col items-end gap-2">
-              <div className="text-right">
-                <span className="text-xs text-gray-500 block">수량</span>
-                <div className="text-lg font-bold">{item.quantity}</div>
-              </div>
+            <div className="flex flex-col items-end gap-3">
+              {/* 수량 변경 */}
+              <form
+                action={updateCartQuantity}
+                className="flex items-center gap-2"
+              >
+                <input type="hidden" name="id" value={item.id} />
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-500">수량</span>
+                  <input
+                    type="number"
+                    name="quantity"
+                    defaultValue={item.quantity}
+                    min={1}
+                    className="w-16 px-2 py-1 border rounded-lg text-sm text-center
+                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                  <button
+                    type="submit"
+                    className="px-3 py-1 text-xs font-medium rounded-full
+                      border border-blue-500 text-blue-600
+                      hover:bg-blue-50 active:bg-blue-100
+                      transition-colors"
+                  >
+                    변경
+                  </button>
+                </div>
+              </form>
 
+              {/* 삭제 버튼 */}
               <form action={removeItemCart}>
                 <input type="hidden" name="id" value={item.id} />
                 <button
