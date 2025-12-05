@@ -50,3 +50,17 @@ export async function addItemCart(formData: FormData) {
   }
   redirect("/cart");
 }
+
+// 수정
+export async function updateCartQuantity(formData: FormData) {
+  const cartId = formData.get("id");
+  const quantity = Number(formData.get("quantity"));
+
+  await fetch(`${BASE_URL}/cart/${cartId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ quantity }),
+  });
+
+  revalidatePath("/cart");
+}
